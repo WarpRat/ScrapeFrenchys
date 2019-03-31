@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/WarpRat/ScrapeFrenchys/config"
 	m "github.com/WarpRat/ScrapeFrenchys/config"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -15,13 +16,13 @@ import (
 
 func buildSession() *session.Session {
 	mySession := session.Must(session.NewSession(&aws.Config{
-		Region: aws.String("us-west-2"),
+		Region: aws.String(config.Region),
 	}))
 	return mySession
 }
 
 //LoadDynamo takes a slice of reservations and loads the data into a dynamoDB table
-func LoadDynamo(parties []m.Res, table string) {
+func LoadDynamo(parties []m.Res) {
 
 	awsSession := buildSession()
 	svc := dynamodb.New(awsSession)
@@ -54,7 +55,7 @@ func LoadDynamo(parties []m.Res, table string) {
 					N: aws.String(n.Party),
 				},
 			},
-			TableName: aws.String(table),
+			TableName: aws.String(config.Table),
 		}
 
 		_, err := svc.PutItem(input)

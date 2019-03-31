@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"regexp"
@@ -13,8 +14,6 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 )
-
-const table string = "frenchy"
 
 func scrapeFrenchy() {
 	client := &http.Client{
@@ -50,14 +49,18 @@ func scrapeFrenchy() {
 				newres.Name = name
 			} else if ii == 3 {
 				newres.Party = se.Text()
+				parties = append(parties, newres)
 			}
 		})
 
-		parties = append(parties, newres)
-
 	})
 
-	aws.LoadDynamo(parties, table)
+	if len(parties) > 0 {
+		aws.LoadDynamo(parties)
+	} else {
+		fmt.Println("No wait - skipping dynamo function.")
+	}
+
 }
 
 //HandleRequest is a lambda requirement
