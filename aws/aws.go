@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	m "github.com/WarpRat/scrape/config"
+	m "github.com/WarpRat/ScrapeFrenchys/config"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"

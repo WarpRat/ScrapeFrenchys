@@ -6,17 +6,17 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/WarpRat/scrape/aws"
+	"github.com/WarpRat/ScrapeFrenchys/aws"
 	"github.com/aws/aws-lambda-go/lambda"
 
-	. "github.com/WarpRat/scrape/config"
+	. "github.com/WarpRat/ScrapeFrenchys/config"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
 const table string = "frenchy"
 
-func scrapeFrency() {
+func scrapeFrenchy() {
 	client := &http.Client{
 		Timeout: 30 * time.Second,
 	}
@@ -57,14 +57,12 @@ func scrapeFrency() {
 
 	})
 
-	//fmt.Printf("%+v\n\n", parties)
-
 	aws.LoadDynamo(parties, table)
 }
 
 //HandleRequest is a lambda requirement
 func HandleRequest() {
-	scrapeFrency()
+	scrapeFrenchy()
 }
 
 func main() {
